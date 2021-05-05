@@ -26,14 +26,11 @@ namespace lsd
             if (DoListFiles)
                 ListFiles(DirectoryPath);
 
-            Console.ForegroundColor = ConsoleColor.White;
-
             return 0;
         }
 
         static int ParseArgs(string[] args)
         {
-
             if (args.Length == 0)
             { 
                 DoListDirectories = true;
