@@ -2,7 +2,9 @@ An imitation of Linux 'ls' in C# .NET Core
 
 To test, use CLI in folder: "dotnet run" -dfs (directories, files, file sizes)
 
-Version 0.0.1. No error handling yet.
+Version 0.0.1. No error handling, yet.
 
 Tested and works on:
 - Windows (10, 20H2)
+- Mac (Big Sur, 11.3.1)
+- Linx (Debian, 10)

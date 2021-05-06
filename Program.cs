@@ -1,19 +1,16 @@
 ﻿using System;
 using System.IO;
 
-
 // https://en.wikipedia.org/wiki/Ls
 
 namespace lsd
 {
     static class Program
     {
-        private static string DirectoryPath = "";
-
-        private static bool DoListDirectories = false;
-        private static bool DoListFiles = false;
-        private static bool DoListFileSizes = false;
-
+        static string DirectoryPath = "";
+        static bool DoListDirectories = false;
+        static bool DoListFiles = false;
+        static bool DoListFileSizes = false;
         static int Main(string[] args)
         {
             ParseArgs(args);
@@ -58,33 +55,39 @@ namespace lsd
             return 0;
         }
 
-        private static int ListDirectories(string path)
+        static int ListDirectories(string path)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
 
             foreach (var directory in Directory.GetDirectories(path))
-                Console.WriteLine(directory.Substring(directory.LastIndexOf("\\") + 1));
+            {
+                var lastSeparator = (directory.LastIndexOf("/") > 0) ? "/" : "\\";
+
+                Console.WriteLine(directory.Substring(directory.LastIndexOf(lastSeparator) + 1));
+            }
 
             Console.ForegroundColor = ConsoleColor.White;
 
             return 0;
         }
 
-        private static int ListFiles(string path)
+        static int ListFiles(string path)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
 
             foreach (var file in Directory.GetFiles(path))
             {
+                var lastSeparator = (file.LastIndexOf("/") > 0) ? "/" : "\\";
+
                 if (DoListFileSizes == false)
                 { 
-                    Console.WriteLine(file.Substring(file.LastIndexOf("\\") + 1));
+                    Console.WriteLine(file.Substring(file.LastIndexOf(lastSeparator) + 1));
                 }
                 else
                 {
+                    /// TODO I have to read the whole file?
                     byte[] bytes = File.ReadAllBytes(file);
-
-                    Console.WriteLine(file.Substring(file.LastIndexOf("\\") + 1) + "  " + bytes.Length.ToString() + " bytes");
+                    Console.WriteLine(file.Substring(file.LastIndexOf(lastSeparator) + 1) + "  " + bytes.Length.ToString() + " bytes");
                 }
             }
 
