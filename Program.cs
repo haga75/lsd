@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 // https://en.wikipedia.org/wiki/Ls
@@ -11,89 +12,99 @@ namespace lsd
         static bool DoListDirectories = false;
         static bool DoListFiles = false;
         static bool DoListFileSizes = false;
+        static bool DoListItemsAsList = false;
+
         static int Main(string[] args)
         {
             ParseArgs(args);
 
             DirectoryPath = Directory.GetCurrentDirectory();
 
-            if (DoListDirectories)
-                ListDirectories(DirectoryPath);
-
-            if (DoListFiles)
-                ListFiles(DirectoryPath);
+            ListAllDirectoryItems(DirectoryPath);
 
             return 0;
         }
 
-        static int ParseArgs(string[] args)
+        static void ParseArgs(string[] args)
         {
             if (args.Length == 0)
             { 
                 DoListDirectories = true;
                 DoListFiles = true;
-                DoListFileSizes = true;
-
-                return 0;
+                DoListFileSizes = false;
+                DoListItemsAsList = false;
             }
+
+            var arg = "";
 
             foreach (var argument in args)
             {
-                if (argument.ToLower().Contains("-directories") || argument.ToLower().Contains("d"))
+                arg = argument.ToLower();
+
+                if (arg.Contains("-directories") || arg.Contains("d"))
                     DoListDirectories = true;
 
-                if (argument.ToLower().Contains("-size") || argument.ToLower().Contains("s"))
+                if (arg.Contains("-size") || arg.Contains("s"))
                 {
                     DoListFiles = true;
                     DoListFileSizes = true;
                 }
 
-                if (argument.ToLower().Contains("-files") || argument.ToLower().Contains("f"))
+                if (arg.Contains("-files") || arg.Contains("f"))
                     DoListFiles = true;
-            }
 
-            return 0;
+                if (arg.Contains("-list") || arg.Contains("l"))
+                    DoListItemsAsList = true;
+            }
         }
 
-        static int ListDirectories(string path)
+        static void ListAllDirectoryItems(string path)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
+            var a = DoListDirectories;
+            var b = DoListFiles;
+            var c = DoListFileSizes;
+            var d = DoListItemsAsList;
+            var items = GetAllDirectoryEntriesSorted(path);
+
+            ConsoleColor previousColor = Console.ForegroundColor;
+
+            if (DoListItemsAsList)
+            { 
+                foreach(var item in items)
+                {
+                    Console.ForegroundColor = item.Color;
+                    Console.WriteLine(item.Name + " " + item.Size + " bytes ");
+                }
+            }
+            else
+            {
+                foreach (var item in items)
+                {
+                    Console.ForegroundColor = item.Color;
+                    Console.Write(item.Name + " ");
+                }
+            }
+
+            Console.ForegroundColor = previousColor;
+        }
+
+        static List<DirectoryItem> GetAllDirectoryEntriesSorted(string path)
+        {
+            SortedList<string, DirectoryItem> sorted = new SortedList<string, DirectoryItem>();
 
             foreach (var directory in Directory.GetDirectories(path))
-            {
-                var lastSeparator = (directory.LastIndexOf("/") > 0) ? "/" : "\\";
-
-                Console.WriteLine(directory.Substring(directory.LastIndexOf(lastSeparator) + 1));
-            }
-
-            Console.ForegroundColor = ConsoleColor.White;
-
-            return 0;
-        }
-
-        static int ListFiles(string path)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+                sorted.Add(directory, new DirectoryItem(true, directory));
 
             foreach (var file in Directory.GetFiles(path))
-            {
-                var lastSeparator = (file.LastIndexOf("/") > 0) ? "/" : "\\";
+                sorted.Add(file, new DirectoryItem(false, file));
 
-                if (DoListFileSizes == false)
-                { 
-                    Console.WriteLine(file.Substring(file.LastIndexOf(lastSeparator) + 1));
-                }
-                else
-                {
-                    /// TODO I have to read the whole file?
-                    byte[] bytes = File.ReadAllBytes(file);
-                    Console.WriteLine(file.Substring(file.LastIndexOf(lastSeparator) + 1) + "  " + bytes.Length.ToString() + " bytes");
-                }
-            }
+            var items = new List<DirectoryItem>();
 
-            Console.ForegroundColor = ConsoleColor.White;
+            foreach (var item in sorted)
+                items.Add(new DirectoryItem(item.Value.IsDirectory, item.Key));
 
-            return 0;
+
+            return items;
         }
     }
 }
