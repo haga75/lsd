@@ -73,8 +73,13 @@ namespace lsd
                 foreach(var item in items)
                 {
                     Console.ForegroundColor = item.Color;
-                    Console.WriteLine(item.Name + " " + item.Size + " bytes ");
+
+                    if (item.IsDirectory)
+                        Console.WriteLine(item.Name);
+                    else
+                        Console.WriteLine(item.Name + " " + item.Size + " bytes ");
                 }
+                
             }
             else
             {

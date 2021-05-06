@@ -11,8 +11,8 @@ namespace lsd
             Path = path;
         }
 
-        public bool IsDirectory { get; private set; }
-        public string Path { get; private set; }
+        public bool IsDirectory { get; }
+        public string Path { get; }
         public string Name
         {
             get
