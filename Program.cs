@@ -6,8 +6,8 @@ namespace lsd
 {
     static class Program
     {
-        static bool ShowOnlyDirectories = false;
-        static bool ShowOnlyFiles = false;
+        static bool ShowDirectories = false;
+        static bool ShowFiles = false;
         static bool ShowAsList = false;
 
         static int Main(string[] args)
@@ -16,8 +16,8 @@ namespace lsd
 
             DirectoryManager.ListAllDirectoryItems(
                 Directory.GetCurrentDirectory(),
-                ShowOnlyDirectories,
-                ShowOnlyFiles,
+                ShowDirectories,
+                ShowFiles,
                 ShowAsList);
 
             return 0;
@@ -25,10 +25,11 @@ namespace lsd
 
         static void ParseArgs(string[] args)
         {
+            // Show all sorted directory items in one straight row. Default for 'ls'
             if (args.Length == 0)
             {
-                ShowOnlyDirectories = true;
-                ShowOnlyFiles = true;
+                ShowDirectories = false;
+                ShowFiles = false;
                 ShowAsList = false;
 
                 return;
@@ -36,18 +37,21 @@ namespace lsd
 
             foreach (var argument in args)
             {
-                if (argument.ToLower().Contains("-directories") || argument.ToLower().Contains("d"))
-                    ShowOnlyDirectories = true;
+                if (argument.ToLower().Contains("-directories")) // || argument.ToLower().Contains("-d") || argument.ToLower().Contains("d"))
+                    ShowDirectories = true;
 
-                if (argument.ToLower().Contains("-files") || argument.ToLower().Contains("f"))
-                    ShowOnlyFiles = true;
+                if (argument.ToLower().Contains("-files")) // || argument.ToLower().Contains("-f") || argument.ToLower().Contains("f")))
+                    ShowFiles = true;
 
-                if (argument.ToLower().Contains("-list") || argument.ToLower().Contains("l"))
+                if (argument.ToLower().Contains("-list")) // || argument.ToLower().Contains("-l") || argument.ToLower().Contains("l"))
                     ShowAsList = true;
-
-                // TODO Correct priorities
-                if (ShowOnlyDirectories)
-                    ShowOnlyFiles = false;
+                
+                // Default behavior in 'ls'
+                if (ShowDirectories == false && ShowFiles == false)
+                {
+                    ShowDirectories = true;
+                    ShowFiles = true;
+                }
             }
         }
     }

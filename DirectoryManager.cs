@@ -6,6 +6,12 @@ namespace lsd
 {
     static class DirectoryManager
     {
+        #region GetAllDirectoryItemsSorted
+        /// <summary>
+        /// Returns list of directory items
+        /// </summary>
+        /// <param name="path">Current folder path</param>
+        /// <returns>List of DirectoryItems</returns>
         private static List<DirectoryItem> GetAllDirectoryItemsSorted(string path)
         {
             SortedList<string, DirectoryItem> sorted = new();
@@ -25,36 +31,63 @@ namespace lsd
 
             return items;
         }
+        #endregion
 
-        public static void ListAllDirectoryItems(string path, bool showDirectories, bool showFiles, bool showList)
+        #region ListAllDirectoryItems
+        /// <summary>
+        /// Writes out directory items
+        /// </summary>
+        /// <param name="path">Directory path</param>
+        /// <param name="showDirectories">Show only directories</param>
+        /// <param name="showFiles">Show only files</param>
+        /// <param name="showAsList">Show as list, or not</param>
+        public static int ListAllDirectoryItems(string path, bool showDirectories = false, bool showFiles = false, bool showAsList = false)
         {
             var items = DirectoryManager.GetAllDirectoryItemsSorted(path);
 
+            if (items.Count == 0)
+                return 0;
+
             ConsoleColor previousColor = Console.ForegroundColor;
 
-            if (showList)
+            foreach (var item in items)
             {
-                foreach (var item in items)
-                {
-                    Console.ForegroundColor = item.Color;
+                Console.ForegroundColor = item.Color;
 
-                    if (item.IsDirectory)
+                if (showAsList)
+                {
+                    if (item.IsDirectory && showDirectories)
+                    { 
                         Console.WriteLine(item.Name);
+                    }
                     else
-                        Console.WriteLine(item.Name + " " + item.Length + " bytes ");
+                    { 
+                        if (item.IsDirectory == false)
+                        {
+                            Console.WriteLine(item.Name + " " + item.Length);
+                        }
+                    }
                 }
-
-            }
-            else
-            {
-                foreach (var item in items)
+                else
                 {
-                    Console.ForegroundColor = item.Color;
-                    Console.Write(item.Name + " ");
+                    if (item.IsDirectory && showDirectories)
+                    {
+                        Console.Write(item.Name +  " ");
+                    }
+                    else
+                    {
+                        if (item.IsDirectory == false)
+                        {
+                            Console.Write(item.Name + " ");
+                        }
+                    }
                 }
             }
 
             Console.ForegroundColor = previousColor;
+
+            return 0;
         }
+        #endregion
     }
 }

@@ -1,6 +1,6 @@
 An imitation of Linux 'ls' in C# .NET Core.
 
-Version 0.0.1. Lacks most features. No error handling. Just for fun.
+Version 0.0.1. Lacks most features. No error handling. Work therapy.
 
 To test, use CLI in folder: "dotnet run" -dfl (directories, files, list)
 
