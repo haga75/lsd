@@ -1,37 +1,29 @@
 ﻿using System;
-using System.IO;
 
 namespace lsd
 {
-    class DirectoryItem
+    public class DirectoryItem
     {
-        public DirectoryItem(bool isDirectory, string path)
+        public DirectoryItem(bool isDirectory, string fullName, long length)
         {
             IsDirectory = isDirectory;
-            Path = path;
+            FullName = fullName;
+            Length = length;
         }
-
         public bool IsDirectory { get; }
-        public string Path { get; }
+        public string FullName { get; }
         public string Name
         {
             get
             {
-                string lastSeparator = (Path.LastIndexOf("/") > 0) ? "/" : "\\";    // Linux or Windows?
-                return Path.Substring(Path.LastIndexOf(lastSeparator) + 1);
+                string lastSeparator = (FullName.LastIndexOf("/") > 0) ? "/" : "\\";    // Linux or Windows?
+                return FullName[(FullName.LastIndexOf(lastSeparator) + 1)..];
             }
         }
         public ConsoleColor Color
         {
-           get => (IsDirectory)? ConsoleColor.Blue : ConsoleColor.Green;
+            get => (IsDirectory) ? ConsoleColor.Blue : ConsoleColor.Green;
         }
-
-        /// <summary>
-        ///  TODO I have to read the whole file?
-        /// </summary>
-        public int Size
-        {
-            get => (IsDirectory) ? 0 : File.ReadAllBytes(Path).Length;
-        }
+        public long Length { get; }
     }
 }
