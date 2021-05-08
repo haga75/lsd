@@ -10,8 +10,10 @@ namespace lsd
             FullName = fullName;
             Length = length;
         }
+
         public bool IsDirectory { get; }
         public string FullName { get; }
+
         public string Name
         {
             get
@@ -20,6 +22,7 @@ namespace lsd
                 return FullName[(FullName.LastIndexOf(lastSeparator) + 1)..];
             }
         }
+
         public ConsoleColor Color
         {
             get => (IsDirectory) ? ConsoleColor.Blue : ConsoleColor.Green;
