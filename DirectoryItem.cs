@@ -4,9 +4,6 @@ namespace lsd
 {
     public class DirectoryItem
     {
-        public bool IsDirectory { get; }
-        public string FullName { get; }
-
         public DirectoryItem(bool isDirectory, string fullName, long length)
         {
             IsDirectory = isDirectory;
