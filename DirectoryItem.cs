@@ -14,6 +14,9 @@ namespace lsd
             Length = length;
         }
 
+        public bool IsDirectory { get; }
+        public string FullName { get; }
+
         public string Name
         {
             get
