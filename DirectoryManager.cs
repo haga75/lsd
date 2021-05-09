@@ -92,6 +92,9 @@ namespace lsd
                 }
             }
 
+            if (showAsList == false)
+                Console.WriteLine();
+
             Console.ForegroundColor = previousColor;
 
             return 0;
