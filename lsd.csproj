@@ -6,7 +6,7 @@
     <StartupObject>lsd.Program</StartupObject>
     <Version>0.0.1</Version>
     <Authors>garneij.com</Authors>
-    <Description>An imitation of Linux 'ls' in .NET Core</Description>
+    <Description>An imitation of 'ls' in C# .NET Core</Description>
     <Copyright>Public Domain</Copyright>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>5.0</AnalysisLevel>

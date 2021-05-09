@@ -1,4 +1,4 @@
-An imitation of linux 'ls' in C# .NET Core.
+An imitation of 'ls' in C# .NET Core.
 
 Version 0.0.1. Lacks most features. No error handling. Work therapy.
 

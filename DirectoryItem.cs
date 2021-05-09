@@ -10,7 +10,7 @@ namespace lsd
             FullName = fullName;
             Length = length;
         }
-
+        
         public bool IsDirectory { get; }
         public string FullName { get; }
 
@@ -25,7 +25,7 @@ namespace lsd
 
         public ConsoleColor Color
         {
-            get => (IsDirectory) ? ConsoleColor.Blue : ConsoleColor.Green;
+            get => (IsDirectory) ? ConsoleColor.Blue : ConsoleColor.Yellow;
         }
         
         public long Length { get; }
