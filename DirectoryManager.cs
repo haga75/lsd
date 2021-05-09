@@ -12,16 +12,16 @@ namespace lsd
         /// </summary>
         /// <param name="path">Current folder path</param>
         /// <returns>List of DirectoryItems</returns>
-        private static List<DirectoryItem> GetDirectoryItemsSorted(string path)
+        private static List<DirectoryItem> GetDirectoryItems(string path)
         {
             SortedList<string, DirectoryItem> sorted = new();
 
-            DirectoryInfo ThisDirectory = new(path);
+            DirectoryInfo directoryContent = new(path);
 
-            foreach (DirectoryInfo directory in ThisDirectory.GetDirectories())
+            foreach (DirectoryInfo directory in directoryContent.GetDirectories())
                 sorted.Add(directory.FullName, new DirectoryItem(true, directory.FullName, 0));
 
-            foreach (var file in ThisDirectory.GetFiles())
+            foreach (var file in directoryContent.GetFiles())
                 sorted.Add(file.FullName, new DirectoryItem(false, file.FullName, file.Length));
 
             var items = new List<DirectoryItem>();
@@ -42,10 +42,9 @@ namespace lsd
         /// <param name="showFiles">Show only files</param>
         /// <param name="showAsList">Show as list, or not</param>
         /// <param name="showLength">Show file length, or not</param>
-        /// 
         public static int ListDirectoryItems(string path, bool showDirectories, bool showFiles, bool showAsList, bool showLength)
         {
-            var items = DirectoryManager.GetDirectoryItemsSorted(path);
+            var items = DirectoryManager.GetDirectoryItems(path);
 
             if (items.Count == 0)
                 return 0;
