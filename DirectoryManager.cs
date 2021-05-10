@@ -6,22 +6,22 @@ namespace lsd
 {
     static class DirectoryManager
     {
-        #region GetDirectoryItemsSorted
+        #region GetDirectoryItems
         /// <summary>
         /// Returns list of directory items
         /// </summary>
-        /// <param name="path">Current folder path</param>
+        /// <param name="path">Folder path</param>
         /// <returns>List of DirectoryItems</returns>
         private static List<DirectoryItem> GetDirectoryItems(string path)
         {
             SortedList<string, DirectoryItem> sorted = new();
 
-            DirectoryInfo directoryContent = new(path);
+            DirectoryInfo dir = new(path);
 
-            foreach (DirectoryInfo directory in directoryContent.GetDirectories())
+            foreach (DirectoryInfo directory in dir.GetDirectories())
                 sorted.Add(directory.FullName, new DirectoryItem(true, directory.FullName, 0));
 
-            foreach (var file in directoryContent.GetFiles())
+            foreach (var file in dir.GetFiles())
                 sorted.Add(file.FullName, new DirectoryItem(false, file.FullName, file.Length));
 
             var items = new List<DirectoryItem>();
@@ -42,9 +42,10 @@ namespace lsd
         /// <param name="showFiles">Show only files</param>
         /// <param name="showAsList">Show as list, or not</param>
         /// <param name="showLength">Show file length, or not</param>
-        public static int ListDirectoryItems(string path, bool showDirectories, bool showFiles, bool showAsList, bool showLength)
+        /// <param name="showBatch">Show batch strings</param>
+        public static int ListDirectoryItems(string path, bool showDirectories, bool showFiles, bool showAsList, bool showLength, bool showBatch)
         {
-            var items = DirectoryManager.GetDirectoryItems(path);
+            var items = GetDirectoryItems(path);
 
             if (items.Count == 0)
                 return 0;
@@ -92,7 +93,7 @@ namespace lsd
                 }
             }
 
-            if (showAsList == false)
+            if ((showDirectories || showFiles) && showAsList == false)
                 Console.WriteLine();
 
             Console.ForegroundColor = previousColor;

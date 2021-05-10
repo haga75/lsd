@@ -2,6 +2,9 @@
 
 namespace lsd
 {
+    /// <summary>
+    /// Represents a directory item. Directory or file.
+    /// </summary>
     public class DirectoryItem
     {
         public DirectoryItem(bool isDirectory, string fullName, long length)
@@ -23,9 +26,10 @@ namespace lsd
             }
         }
 
+        // TODO Do something with color (LSD = Rainbow?). Calculate contrast colors?
         public ConsoleColor Color
         {
-            get => (IsDirectory) ? ConsoleColor.Blue : ConsoleColor.Yellow;
+            get => (IsDirectory) ? ConsoleColor.Blue : ConsoleColor.Yellow; // Swedish colors
         }
         
         public long Length { get; }
