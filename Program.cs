@@ -8,7 +8,7 @@ namespace lsd
 {
     static class Program
     {
-        public static bool ShowDirectories = false;
+        static bool ShowDirectories = false;
         static bool ShowFiles = false;
         static bool ShowAsList = false;
         static bool ShowLength = false;
