@@ -50,16 +50,8 @@ namespace lsd
             if (items.Count == 0)
                 return 0;
 
-            Console.WriteLine("showDirectories = " + showDirectories);
-            Console.WriteLine("showFiles = " + showFiles);
-            Console.WriteLine("showAsList = " + showAsList);
-            Console.WriteLine("showLength = " + showLength);
-            Console.WriteLine("showBatch = " + showBatch);
-
-
             ConsoleColor previousColor = Console.ForegroundColor;
 
-            // TODO Make it simpler, if possible
             foreach (var item in items)
             {
                 Console.ForegroundColor = item.Color;
