@@ -1,6 +1,6 @@
 An imitation of 'ls' in C# .NET Core.
 
-Version 0.0.0.2. Lacks most features. No error handling. Work therapy.
+Version 0.0.0.3. Lacks most features. No error handling. Work therapy.
 
 To test, use CLI in folder; "dotnet run" -directories -files -list -length -version
 

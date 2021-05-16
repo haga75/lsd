@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System;
+﻿using System;
+using System.IO;
 using System.Reflection;
 
 // https://en.wikipedia.org/wiki/Ls
@@ -19,7 +19,7 @@ namespace lsd
         {
             ParseArgs(args);
 
-            DirectoryManager.ListDirectoryItems(
+            DirectoryManager.ShowDirectoryItems(
                 Directory.GetCurrentDirectory(),
                 ShowDirectories,
                 ShowFiles,
@@ -51,32 +51,31 @@ namespace lsd
                 return 0;
             }
 
+            string arguments = string.Empty;
+
             foreach (var argument in args)
+                arguments += argument.ToLower() + " ";
+
+            if (arguments.Contains("-directories"))
+                ShowDirectories = true;
+
+            if (arguments.Contains("-files"))
+                ShowFiles = true;
+
+            if (arguments.Contains("-list"))
+                ShowAsList = true;
+
+            if (arguments.Contains("-length"))
+                ShowLength = true;
+
+            if (arguments.ToLower().Contains("-batch"))
+                ShowBatch = true;
+
+            // Default behaviour in 'ls', show all
+            if (ShowDirectories == false && ShowFiles == false)
             {
-                if (argument.ToLower().Contains("-directories"))
-                    ShowDirectories = true;
-
-                if (argument.ToLower().Contains("-files"))
-                    ShowFiles = true;
-
-                if (argument.ToLower().Contains("-list"))
-                    ShowAsList = true;
-
-                if (argument.ToLower().Contains("-length"))
-                    ShowLength = true;
-
-                if (argument.ToLower().Contains("-batch"))
-                { 
-                    ShowBatch = true;
-                    // Get parameters before item name, then new item name
-                }
-
-                // Default behaviour in 'ls'
-                if (ShowDirectories == false && ShowFiles == false)
-                {
-                    ShowDirectories = true;
-                    ShowFiles = true;
-                }
+                ShowDirectories = true;
+                ShowFiles = true;
             }
 
             return 0;

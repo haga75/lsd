@@ -21,7 +21,7 @@ namespace lsd
         {
             get
             {
-                string lastSeparator = (FullName.LastIndexOf("/") > 0) ? "/" : "\\";    // macOS, linux or Windows?
+                string lastSeparator = (FullName.LastIndexOf("/") > 0) ? "/" : "\\";    // macOS/linux or Windows?
                 return FullName[(FullName.LastIndexOf(lastSeparator) + 1)..];
             }
         }
@@ -29,7 +29,7 @@ namespace lsd
         // TODO Do something with color (LSD = Rainbow?). Calculate contrast colors?
         public ConsoleColor Color
         {
-            get => (IsDirectory) ? ConsoleColor.Blue : ConsoleColor.Yellow; // Swedish colors
+            get => IsDirectory ? ConsoleColor.Blue : ConsoleColor.Yellow; // Swedish colors
         }
         
         public long Length { get; }
